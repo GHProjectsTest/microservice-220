@@ -118,32 +118,6 @@ public class MensaTest {
 
   /**
    * 
-   * Test for the Listalldishes_ID786429 method.
-   * 
-   */
-  @Test
-  public void testListalldishes_ID786429() {
-    MiniClientCoverage c = new MiniClientCoverage(mainPath);
-    c.setConnectorEndpoint(connector.getHttpEndpoint());
-    
-        
-    try {
-      c.setLogin(AnonymousAgentImpl.IDENTIFIER, "");
-      ClientResponse result = c.sendRequest("GET", "/dishes", """
-""", "text/plain", "*/*", new HashMap<>(), new Object[0]);
-      System.out.println("Result of request with id: 777839: " + result.getResponse().trim());
-    
-      Assert.assertEquals("[642259]", 200, result.getHttpCode());
-
-    } catch (Exception e) {
-      e.printStackTrace();
-      fail("Exception: " + e);
-    }
-
-    
-  }
-  /**
-   * 
    * Test for the Getdishbyid_ID315484 method.
    * 
    */
@@ -160,6 +134,37 @@ public class MensaTest {
       System.out.println("Result of request with id: 176227: " + result.getResponse().trim());
     
       Assert.assertEquals("[817712]", 404, result.getHttpCode());
+  Object response = JSONValue.parse(result.getResponse().trim());
+      // Response body has type Dish
+      assertThat("[567371]", response, both(isA(JSONObject.class)).and(asJSONObject(followsSchema("Dish", """
+      {"type":"object","properties":{"name":{"type":"string"},"id":{"format":"int32","type":"integer"}},"required":["name","id"]}"""))));
+      
+
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail("Exception: " + e);
+    }
+
+    
+  }
+  /**
+   * 
+   * Test for the Listalldishes_ID786429 method.
+   * 
+   */
+  @Test
+  public void testListalldishes_ID786429() {
+    MiniClientCoverage c = new MiniClientCoverage(mainPath);
+    c.setConnectorEndpoint(connector.getHttpEndpoint());
+    
+        
+    try {
+      c.setLogin(AnonymousAgentImpl.IDENTIFIER, "");
+      ClientResponse result = c.sendRequest("GET", "/dishes", """
+""", "text/plain", "*/*", new HashMap<>(), new Object[0]);
+      System.out.println("Result of request with id: 777839: " + result.getResponse().trim());
+    
+      Assert.assertEquals("[642259]", 200, result.getHttpCode());
 
     } catch (Exception e) {
       e.printStackTrace();
